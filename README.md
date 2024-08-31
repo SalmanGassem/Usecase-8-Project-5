@@ -1,6 +1,6 @@
 # Usecase-8-Project-5
 
-## Stream lit link: https://team-pirates-project-5.streamlit.app/
+## Streamlit link: https://team-pirates-project-5.streamlit.app/
 
 ### The Final presentation will be on Sunday
 ### Due Date: Sun , 1 Sep, 10:00 am.
