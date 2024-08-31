@@ -1,45 +1,97 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+import streamlit as st
+from streamlit_option_menu import option_menu
 import joblib
+import pandas as pd
+import plotly.express as px
+import requests
 
-app = FastAPI()
+# Load the model (uncomment when you have your model file)
+# model = joblib.load('your_model.joblib')
 
-# Load the model and scaler
-model_kmeans = joblib.load('kmens_model.joblib')
-scaler_kmeans = joblib.load('kmens_scaler.joblib')
+# Streamlit layout with sidebar menu
+with st.sidebar:
+    selected = option_menu(
+        "Main Menu",
+        ["Home", "A Guide to Coursera's Premier Data Courses", "K-Means Clustering", "Prediction"],
+        icons=["house", "file-earmark-text", "file-earmark-text"],
+        menu_icon="cast",
+        default_index=0,
+    )
 
-# Define the data model for the input
-class InputFeatures(BaseModel):
-    Provider: str
-    Level: str
-    Type: str
-    Duration_Weeks: str
+if selected == "Home":
+    st.title("Welcome to Home Page")
+    st.write("This is the home page.")
 
-# Function to preprocess the input data
-def preprocess_features(input_features: InputFeatures):
-    dict_f = {
-        'Provider': input_features.Provider,
-        'Level': input_features.Level,
-        'Type': input_features.Type,
-        'Duration_Weeks': input_features.Duration_Weeks
-    }
-    # Convert dictionary values to a list in the correct order
-    features_list = [dict_f[key] for key in sorted(dict_f)]
-    # Scale the input features
-    scaled_features = scaler_kmeans.transform([features_list])
-    return scaled_features
+elif selected == "A Guide to Coursera's Premier Data Courses":
+    st.title("Coursera Data Analysis")
+    
+    st.subheader("Univariate Analysis")
+    st.image("chart1.png")
+    st.write("Most Coursera courses have ratings between 4 and 5, indicating that it is a valuable platform for taking courses.")
+    st.image("chart2.png")
+    st.write("IBM demonstrates its expertise by offering courses across a wide range of tracks.")
+    st.image("chart3.png")
+    st.write("We can indicate that most Coursera users are beginners.")
+    st.image("chart4.png")
+    st.write("Most of the course ratings fall between 0 and 50k.")
+    st.image("chart5.png")
+    st.write("Since most users are beginners, the courses have the highest enrollment numbers.")
+    st.image("chart6.png")
+    st.write("Users prefer to take courses that do not exceed three months in duration.")
+    
+    st.subheader("Bivariate/Multivariate Analysis")
+    st.write("**Chart 1: Level vs. Type**")
+    st.image("chart7.png")
+    st.write("The chart shows a dominant focus on 'Beginner' level courses in 'Course' and 'Specialization' types.")
+    st.image("chart8.png")
+    st.write("Most IBM enrollees have liked the courses.")
+    st.image("chart9.png")
+    st.write("The 'Python for Everybody' course has the highest number of reviews, indicating its popularity among learners compared to other courses.")
+    st.image("chart10.png")
+    st.write("A three-month period is the most preferred duration for courses.")
+    st.image("chart11.png")
+    st.write("Professional certificates are not offered by many companies.")
+    st.image("chart12.png")
+    st.write("Most of the top providers by reviews are universities.")
+    st.image("chart12.png")
+    st.write("The majority of courses on Coursera have high ratings.")
 
-# Prediction endpoint
-@app.post("/predict")
-async def predict(input_features: InputFeatures):
-    data = preprocess_features(input_features)
-    y_pred = model_kmeans.predict(data)
-    return {"prediction": y_pred.tolist()[0]}
+elif selected == "K-Means Clustering":
+    st.title("K-Means Clustering")
+    st.image("Silhouette Score.png")
+    st.image("Silhouette plot for the various cluster.png")
+    st.image("cluster_non_PCA.png")
+    st.image("Density.png")
+    st.image("distribution of clusters by provider.png")
 
-@app.get("/")
-def root():
-    return " Prediction"
+elif selected == "Prediction":
+    st.title("Prediction Page")
+    
+    with st.form("prediction_form"):
+        provider = st.text_input('Provider')
+        level = st.selectbox('Level', ['Beginner', 'Intermediate', 'Advanced', 'Mixed'])
+        type_ = st.selectbox('Type', ['Professional Certificate', 'Specialization', 'Course'])
+        duration_weeks = st.selectbox('Duration Range by Weeks', ['1 - 4', '4 - 12', '12 - 24'])
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
+        submit_button = st.form_submit_button(label='Predict')
+
+    if submit_button:
+        # Prepare data to send to FastAPI
+        player_data = {
+            "Provider": provider,
+            "Level": level,
+            "Type": type_,
+            "Duration / Weeks": duration_weeks
+        }
+
+        try:
+            # Send data to FastAPI
+            response = requests.post("https://api-project-0j0c.onrender.com/predict/", json=player_data)
+            response.raise_for_status()  # Will raise an HTTPError for bad responses
+
+            # Extract and display prediction
+            prediction = response.json().get("prediction", "No prediction found")
+            st.write(f"Prediction: {prediction}")
+            
+        except requests.exceptions.RequestException as e:
+            st.error(f"An error occurred: {e}")
