@@ -68,7 +68,7 @@ elif selected == "Prediction":
     st.title("Prediction Page")
     
     with st.form("prediction_form"):
-        provider = st.text_input('Provider')
+        provider = st.selectbox('Level', ['IBM', 'Googel'])
         level = st.selectbox('Level', ['Beginner', 'Intermediate', 'Advanced', 'Mixed'])
         type_ = st.selectbox('Type', ['Professional Certificate', 'Specialization', 'Course'])
         duration_weeks = st.selectbox('Duration Range by Weeks', ['1 - 4', '4 - 12', '12 - 24'])
@@ -77,16 +77,16 @@ elif selected == "Prediction":
 
     if submit_button:
         # Prepare data to send to FastAPI
-        player_data = {
-            "Provider": provider,
-            "Level": level,
-            "Type": type_,
-            "Duration / Weeks": duration_weeks
+        cors_data = {
+            "provider": provider,
+            "level": level,
+            "type": type_,
+           "duration_Weeks": duration_weeks
         }
 
         try:
             # Send data to FastAPI
-            response = requests.post("https://api-project-0j0c.onrender.com/predict/", json=player_data)
+            response = requests.post("https://api-project-0j0c.onrender.com/predict/", json=cors_data)
             response.raise_for_status()  # Will raise an HTTPError for bad responses
 
             # Extract and display prediction
