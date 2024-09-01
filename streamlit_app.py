@@ -91,7 +91,7 @@ elif selected == "Prediction":
         reviews = st.number_input("Total Reviews:", min_value=0)
         # course_type = st.selectbox('Course Type', ['Professional Certificate', 'Specialization', 'Course'])
         # duration_weeks = st.selectbox('Duration by Weeks', ['1 - 4', '4 - 12', '12 - 24'])
-        duration_weeks = st.number_input("Total Reviews:", min_value=0)
+        duration_weeks = st.number_input("Duration in weeks:", min_value=0)
 
         submit_button = st.form_submit_button(label='Predict')
 
