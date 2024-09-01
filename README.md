@@ -52,3 +52,4 @@ These criteria—effective clustering and a good silhouette score—were key in 
 ## Feature and Prediction Insights:
 ![image](https://github.com/user-attachments/assets/0ddf4f02-5f3b-49b3-9fdb-549158a4ecbd)
 
+- This scatter plot shows how courses are grouped based on their number of reviews. Different colors and symbols represent different groups. Products with higher ratings (4.0 to 5.0) have more reviews, suggesting they are popular. This chart helps us understand which courses are well-liked and often reviewed.
