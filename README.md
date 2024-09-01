@@ -50,3 +50,5 @@ We chose the best-performing model based on its ability to effectively cluster d
 These criteria—effective clustering and a good silhouette score—were key in determining that K-means was the best model for our project needs.
 
 ## Feature and Prediction Insights:
+![image](https://github.com/user-attachments/assets/0ddf4f02-5f3b-49b3-9fdb-549158a4ecbd)
+
