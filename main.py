@@ -35,7 +35,7 @@ def preprocess_features(input_features: InputFeatures):
     # Scale the input features
     scaled_features = scaler.transform([list(dict_f.values())])
 
-    return [scaled_features]
+    return scaled_features
 
 # Prediction endpoint
 @app.post("/predict")
