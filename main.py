@@ -11,10 +11,10 @@ scaler_kmeans = joblib.load('kmens_scaler.joblib')
 # Define the data model for the input
 class InputFeatures(BaseModel):
     rating : float
-    provider: int
-    level: int
+    # provider: int
+    # level: int
     reviews: int
-    course_type: int
+    # course_type: int
     duration_weeks: int
 
 
@@ -22,17 +22,20 @@ class InputFeatures(BaseModel):
 def preprocess_features(input_features: InputFeatures):
     dict_f = {
         'rating': input_features.rating,
-        'provider': input_features.provider,
-        'level': input_features.level,
+        # 'provider': input_features.provider,
+        # 'level': input_features.level,
         'reviews': input_features.reviews,
-        'course_type': input_features.course_type,
+        # 'course_type': input_features.course_type,
         'duration_weeks': input_features.duration_weeks
     }
 
     # Convert dictionary values to a list in the correct order
     features_list = [dict_f[key] for key in sorted(dict_f)]
 
-    return [features_list]
+    # Scale the input features
+    scaled_features = scaler.transform([list(dict_f.values())])
+
+    return [scaled_features]
 
 # Prediction endpoint
 @app.post("/predict")
