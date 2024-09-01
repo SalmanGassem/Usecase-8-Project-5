@@ -6,7 +6,7 @@ import plotly.express as px
 import requests
 
 # Load the model (uncomment when you have your model file)
-# model = joblib.load('your_model.joblib')
+model = joblib.load('your_model.joblib')
 
 # Streamlit layout with sidebar menu
 with st.sidebar:
@@ -86,7 +86,7 @@ elif selected == "Prediction":
 
         try:
             # Send data to FastAPI
-            response = requests.post("https://api-project-0j0c.onrender.com/predict/", json=cors_data)
+            response = requests.post("https://team-pirates-project-5.onrender.com/predict/", json=cors_data)
             response.raise_for_status()  # Will raise an HTTPError for bad responses
 
             # Extract and display prediction
