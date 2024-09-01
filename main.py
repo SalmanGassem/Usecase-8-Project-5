@@ -25,8 +25,8 @@ def preprocess_features(input_features: InputFeatures):
         'provider': input_features.provider,
         'level': input_features.level,
         'reviews': input_features.reviews,
-        'type': input_features.course_type,
-        'duration_Weeks': input_features.duration_weeks
+        'course_type': input_features.course_type,
+        'duration_weeks': input_features.duration_weeks
     }
 
     # Convert dictionary values to a list in the correct order
