@@ -5,8 +5,8 @@ import joblib
 app = FastAPI()
 
 # Load the model and scaler
-model_kmeans = joblib.load('kmens_model.joblib')
-scaler_kmeans = joblib.load('kmens_scaler.joblib')
+model = joblib.load('kmens_model.joblib')
+scaler = joblib.load('kmens_scaler.joblib')
 
 # Define the data model for the input
 class InputFeatures(BaseModel):
@@ -35,13 +35,13 @@ def preprocess_features(input_features: InputFeatures):
     # Scale the input features
     scaled_features = scaler.transform([list(dict_f.values())])
 
-    return scaled_features
+    return [scaled_features]
 
 # Prediction endpoint
 @app.post("/predict")
 async def predict(input_features: InputFeatures):
     data = preprocess_features(input_features)
-    y_pred = model_kmeans.predict(data)
+    y_pred = model.predict(data)
     return {"prediction": y_pred.tolist()[0]}
 
 @app.get("/")
