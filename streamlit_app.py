@@ -83,9 +83,9 @@ elif selected == "Prediction":
     st.title("Prediction Page")
     
     with st.form("prediction_form"):
-        rating = st.number_input("Rating (1-5):", min_value=0.0)
+        rating = st.number_input("Rating (1-5):", min_value=0.0, max_value=5)
         reviews = st.number_input("Total Reviews:", min_value=0)
-        duration_weeks = st.number_input("Duration in weeks:", min_value=0)
+        duration_weeks = st.number_input("Duration in weeks:", min_value=1)
 
         submit_button = st.form_submit_button(label='Predict')
 
