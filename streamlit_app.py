@@ -23,6 +23,17 @@ with st.sidebar:
         default_index=0,
     )
 
+def get_readable_result(prediction):
+    result = {
+                0:"Not a popular course, not recommended", 
+                1: "This is a popular course, recommended!", 
+                2: "Average popularity, could be useful",
+                3: "This is a popular course, recommended!",
+                4: "Not a popular course, not recommended"
+                }
+    
+    return result[prediction]
+
 if selected == "Home":
     st.title("Welcome to Home Page")
     st.write("This is the home page.")
@@ -106,6 +117,9 @@ elif selected == "Prediction":
 
             # Extract and display prediction
             prediction = response.json().get("prediction", "No prediction found")
+
+            prediction = get_readable_result(prediction)
+
             st.write(f"Prediction: {prediction}")
             
         except requests.exceptions.RequestException as e:
