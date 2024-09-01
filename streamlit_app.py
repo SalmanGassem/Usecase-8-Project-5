@@ -6,7 +6,7 @@ import plotly.express as px
 import requests
 
 # Load the model (uncomment when you have your model file)
-model = joblib.load('your_model.joblib')
+model = joblib.load('kmens_model.joblib')
 
 # Streamlit layout with sidebar menu
 with st.sidebar:
