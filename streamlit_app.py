@@ -19,9 +19,9 @@ with st.sidebar:
     )
 def get_readable_result(prediction):
     result = {
-                0:"Not a popular course, not recommended", 
-                1: "This is a popular course, recommended!", 
-                2: "Average popularity, could be useful",
+                0:"Not a popular course, not recommended :thumbsdown:", 
+                1: "This is a popular course, recommended! :thumbsup:", 
+                2: "Average popularity, could be useful :man_shrugging:",
                 }
     
     return result[prediction]
